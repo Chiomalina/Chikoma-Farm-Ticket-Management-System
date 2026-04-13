@@ -1,66 +1,65 @@
 # Implementation Plan
 
-## Phase 1 — Project Setup
+## Phase 1: Project Setup
 
-- [ ] Initialize Next.js project (App Router, TypeScript)
-- [ ] Configure Tailwind CSS and install shadcn/ui
-- [ ] Set up PostgreSQL database (local + hosted on Railway/Supabase)
-- [ ] Install and configure Prisma, connect to database
-- [ ] Define database schema: User, Ticket, Reply
-- [ ] Seed initial admin user on deploy
-- [ ] Set up environment variables structure (.env.example)
+- [ ] Initialize monorepo structure (`client`,/ `/server`)
+- [ ] Set up Express server with TypeScript
+- [ ] Set up React app with TypeScript 
+- [ ] Set up PostgreSQL database
 
-## Phase 2 — Authentication & User Management
 
-- [ ] Set up NextAuth.js with credentials provider (email + password)
-- [ ] Protect routes with middleware based on role (admin, agent)
-- [ ] Admin: user list page (view all agents)
-- [ ] Admin: create agent account form
-- [ ] Admin: deactivate / delete agent account
-- [ ] Login page (shared for admin and agents)
+## Phase 2: Authentication
 
-## Phase 3 — Ticket Core
+- [ ] Create login page
+- [ ] Implement login API endpoint
+- [ ] Implement session-based authentication middleware
+- [ ] Implement logout API endpoint
+- [ ] Add route protection on the frontend (redirect to login if unauthenticated)
 
-- [ ] API routes: create, read, update ticket
-- [ ] Ticket list page with filtering (by status, category) and sorting (by date)
-- [ ] Ticket detail page (view full ticket content + metadata)
-- [ ] Update ticket status (open → resolved → closed)
-- [ ] Manual ticket creation form (for development/testing)
+## Phase 3: User Management
 
-## Phase 4 — Email Ingestion
+- [ ] Create user management page (admin only)
+- [ ] Implement create agent API endpoint
+- [ ] Implement list users API endpoint
+- [ ] Implement edit user API endpoint
+- [ ] Implement delete user API endpoint
+- [ ] Add role-based access control (admin vs agent)
 
-- [ ] Set up inbound email webhook with Postmark or SendGrid
-- [ ] Parse inbound webhook payload and create ticket in database
-- [ ] Extract sender name, email, subject, and body from payload
-- [ ] Prevent duplicate tickets from the same email (idempotency key)
-- [ ] Test end-to-end: send email → ticket appears in dashboard
+## Phase 4: Ticket CRUD
 
-## Phase 5 — AI Features
+- [ ] Implement create ticket API endpoint
+- [ ] Implement list tickets API endpoint (with filtering by status and category, sorting)
+- [ ] Implement update ticket API endpoint (change status, assign agent)
+- [ ] Create ticket list page with filtering and sorting
+- [ ] Create ticket detail page
 
-- [ ] Set up Claude API client (Anthropic SDK)
-- [ ] Build knowledge base (static documents or structured FAQ)
-- [ ] Auto-classify ticket into category on creation (Claude)
-- [ ] Auto-generate ticket summary on creation (Claude)
-- [ ] Generate suggested reply on ticket detail page (Claude + knowledge base)
+## Phase 5: AI Features
 
-## Phase 6 — Email Responses
+- [ ] Set up Claude API integration
+- [ ] Implement auto-classification endpoint (categorize incoming tickets)
+- [ ] Implement AI summary endpoint (generate ticket summary)
+- [ ] Implement AI suggested reply endpoint
+- [ ] Build knowledge base structure and seed with initial content
+- [ ] Integrate AI features into ticket detail page UI
 
-- [ ] Set up outbound email sending (Postmark/SendGrid + Nodemailer)
-- [ ] Agent can edit and send a reply from the ticket detail page
-- [ ] Store sent replies against the ticket (Reply model)
-- [ ] Display reply history on ticket detail page
-- [ ] Mark ticket as resolved after reply is sent (optional automation)
+## Phase 6: Email Integration
 
-## Phase 7 — Dashboard
+- [ ] Set up email provider (SendGrid/Mailgun)
+- [ ] Implement inbound email webhook to create tickets
+- [ ] Implement outbound email sending when an agent replies
+- [ ] Handle email threading (replies linked to existing tickets)
 
-- [ ] Dashboard overview: ticket counts by status and category
-- [ ] Recent tickets feed
-- [ ] Basic charts or stat cards (open vs resolved vs closed)
+## Phase 7: Dashboard
 
-## Phase 8 — Deployment
+- [ ] Create dashboard page with ticket overview stats (open, resolved, closed counts)
+- [ ] Add tickets by category breakdown
+- [ ] Add recent tickets list
+- [ ] Add quick filters to navigate to filtered ticket list
 
-- [ ] Configure Vercel project and connect repository
-- [ ] Set all production environment variables in Vercel
-- [ ] Set up hosted database and run migrations
-- [ ] Run seed to create admin account on first deploy
-- [ ] Smoke test: full flow from inbound email to AI reply to send
+## Phase 8: Polish & Deployment
+
+- [ ] Add input validation and error handling across all endpoints
+- [ ] Add loading states and error states on the frontend
+- [ ] Write Dockerfile for server and client
+- [ ] Set up Docker Compose for local development
+- [ ] Write deployment configuration
